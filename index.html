@@ -10,8 +10,8 @@
   </style>
 </head>
 <body>
-  <h1>音楽再生</h1>
-  <audio id="player" controls></audio>
+  <h1>🎵 Webラジオ</h1>
+  <audio id="player" controls autoplay></audio>
   <br>
   <button id="playBtn">▶ 再生</button>
   <button id="pauseBtn">⏸ 停止</button>
@@ -24,32 +24,40 @@
     const volBtn = document.getElementById('volBtn');
 
     const tracks = [
-      "music1.mp3","music2.mp3","music3.mp3","music4.mp3","music5.mp3",
-      "music6.mp3","music7.mp3","music8.mp3","music9.mp3","music10.mp3",
-      "music11.mp3","music12.mp3","music13.mp3","music14.mp3","music15.mp3",
-      "music16.mp3","music17.mp3","music18.mp3","music19.mp3","music20.mp3",
-      "music21.mp3","music22.mp3","music23.mp3","music24.mp3","music25.mp3",
-      "music26.mp3","music27.mp3"
+      "music/music1.mp3","music/music2.mp3","music/music3.mp3","music/music4.mp3","music/music5.mp3",
+      "music/music6.mp3","music/music7.mp3","music/music8.mp3","music/music9.mp3","music/music10.mp3",
+      "music/music11.mp3","music/music12.mp3","music/music13.mp3","music/music14.mp3","music/music15.mp3",
+      "music/music16.mp3","music/music17.mp3","music/music18.mp3","music/music19.mp3","music/music20.mp3",
+      "music/music21.mp3","music/music22.mp3","music/music23.mp3","music/music24.mp3","music/music25.mp3",
+      "music/music26.mp3","music/music27.mp3"
     ];
 
     let currentTrack=0;
     player.src=tracks[currentTrack];
     player.loop=false;
 
+    // 曲が終わったら次の曲へ
     player.addEventListener('ended',()=>{
       currentTrack=(currentTrack+1)%tracks.length;
       player.src=tracks[currentTrack];
-      player.play().catch(()=>{});
+      player.play().catch(()=>{}); // 自動再生ブロック対策
     });
 
+    // ボタン操作
     playBtn.addEventListener('click',()=>{player.play();});
     pauseBtn.addEventListener('click',()=>{player.pause();});
     volBtn.addEventListener('click',()=>{
       let vol=prompt("音量を0〜1で入力してください",player.volume);
-      if(vol!==null){let v=parseFloat(vol);if(!isNaN(v)&&v>=0&&v<=1){player.volume=v;}}
+      if(vol!==null){
+        let v=parseFloat(vol);
+        if(!isNaN(v) && v>=0 && v<=1){ player.volume=v; }
+      }
     });
 
-    window.addEventListener('load',()=>{player.play().catch(()=>{});});
+    // ページ読み込み時に自動再生を試みる
+    window.addEventListener('load', () => {
+      player.play().catch(()=>{}); // iPhoneなどでブロックされてもボタンで対応
+    });
   </script>
 </body>
 </html>
