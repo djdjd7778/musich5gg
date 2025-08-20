@@ -1,113 +1,115 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>h5gg音楽</title>
-  <style>
-    body { font-family: system-ui, sans-serif; text-align: center; padding:50px; background:#f0f0f0; }
-    button { font-size:16px; margin:5px; padding:8px 16px; cursor:pointer; }
-    .track-btn { background:#ffffff; }
-    .track-btn.playing { background:#a0e0a0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>h5gg音楽</title>
+<style>
+  body { font-family: system-ui, sans-serif; text-align: center; padding:50px; background:#f0f0f0; }
+  button { font-size:16px; margin:5px; padding:8px 16px; cursor:pointer; }
+  input { font-size:16px; width:50px; text-align:center; }
+  .track-display { margin-top:20px; font-weight:bold; }
+</style>
 </head>
 <body>
-  <h1>音楽再生</h1>
-  <audio id="player" controls autoplay></audio>
-  <br>
-  <button id="prevBtn">⏮ 前の曲</button>
-  <button id="nextBtn">⏭ 次の曲</button>
-  <button id="playBtn">▶ 再生</button>
-  <button id="pauseBtn">⏸ 停止</button>
-  <button id="volBtn">🔊 音量調整</button>
-  <div id="trackButtons"></div>
+<h1>音楽再生</h1>
 
-  <script>
-    const player = document.getElementById('player');
-    const playBtn = document.getElementById('playBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const volBtn = document.getElementById('volBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const trackButtonsDiv = document.getElementById('trackButtons');
+<audio id="player" controls autoplay></audio>
+<br>
 
-    const tracks = [
-      "music/music1.mp3","music/music2.mp3","music/music3.mp3","music/music4.mp3","music/music5.mp3",
-      "music/music6.mp3","music/music7.mp3","music/music8.mp3","music/music9.mp3","music/music10.mp3",
-      "music/music11.mp3","music/music12.mp3","music/music13.mp3","music/music14.mp3","music/music15.mp3",
-      "music/music16.mp3","music/music17.mp3","music/music18.mp3","music/music19.mp3","music/music20.mp3",
-      "music/music21.mp3","music/music22.mp3","music/music23.mp3","music/music24.mp3","music/music25.mp3",
-      "music/music26.mp3","music/music27.mp3"
-    ];
+<button id="prevBtn">⏮ 前の曲</button>
+<button id="nextBtn">⏭ 次の曲</button>
+<button id="playBtn">▶ 再生</button>
+<button id="pauseBtn">⏸ 停止</button>
+<button id="volBtn">🔊 音量調整</button>
+<br><br>
 
-    let currentTrack = 0;
+<label for="trackInput">曲番号(1～27):</label>
+<input type="number" id="trackInput" min="1" max="27">
+<button id="selectBtn">再生</button>
+
+<div class="track-display" id="trackDisplay">現在の曲: 1</div>
+
+<script>
+const player = document.getElementById('player');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const volBtn = document.getElementById('volBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const trackInput = document.getElementById('trackInput');
+const selectBtn = document.getElementById('selectBtn');
+const trackDisplay = document.getElementById('trackDisplay');
+
+const tracks = [
+"music/music1.mp3","music/music2.mp3","music/music3.mp3","music/music4.mp3","music/music5.mp3",
+"music/music6.mp3","music/music7.mp3","music/music8.mp3","music/music9.mp3","music/music10.mp3",
+"music/music11.mp3","music/music12.mp3","music/music13.mp3","music/music14.mp3","music/music15.mp3",
+"music/music16.mp3","music/music17.mp3","music/music18.mp3","music/music19.mp3","music/music20.mp3",
+"music/music21.mp3","music/music22.mp3","music/music23.mp3","music/music24.mp3","music/music25.mp3",
+"music/music26.mp3","music/music27.mp3"
+];
+
+let currentTrack = 0;
+player.src = tracks[currentTrack];
+player.loop = false;
+
+// 曲が終わったら次の曲へ
+player.addEventListener('ended', () => { nextTrack(); });
+
+// ボタン操作
+playBtn.addEventListener('click',()=>{player.play();});
+pauseBtn.addEventListener('click',()=>{player.pause();});
+volBtn.addEventListener('click', ()=>{
+  let vol = prompt("音量を0〜10で入力してください", player.volume*10);
+  if(vol !== null){
+    let v = parseFloat(vol);
+    if(!isNaN(v) && v>=0 && v<=10){
+      player.volume = v / 10;
+    }
+  }
+});
+prevBtn.addEventListener('click', ()=>{ prevTrack(); });
+nextBtn.addEventListener('click', ()=>{ nextTrack(); });
+
+// 曲番号入力タイプ
+selectBtn.addEventListener('click', ()=>{
+  let num = parseInt(trackInput.value);
+  if(!isNaN(num) && num>=1 && num<=27){
+    currentTrack = num-1;
     player.src = tracks[currentTrack];
-    player.loop = false;
+    player.play().catch(()=>{});
+    updateTrackDisplay();
+  } else {
+    alert("1～27の番号を入力してください");
+  }
+});
 
-    // 曲が終わったら次の曲へ
-    player.addEventListener('ended', () => { nextTrack(); });
+// 曲番号表示更新
+function updateTrackDisplay(){
+  trackDisplay.textContent = `現在の曲: ${currentTrack+1}`;
+}
 
-    // ボタン操作
-    playBtn.addEventListener('click',()=>{player.play();});
-    pauseBtn.addEventListener('click',()=>{player.pause();});
-    volBtn.addEventListener('click',()=>{
-      let vol=prompt("音量を0〜1で入力してください",player.volume);
-      if(vol!==null){
-        let v=parseFloat(vol);
-        if(!isNaN(v) && v>=0 && v<=1){ player.volume=v; }
-      }
-    });
+// 次/前の曲
+function nextTrack(){
+  currentTrack = (currentTrack + 1) % tracks.length;
+  player.src = tracks[currentTrack];
+  player.play().catch(()=>{});
+  updateTrackDisplay();
+}
 
-    prevBtn.addEventListener('click', ()=>{ prevTrack(); });
-    nextBtn.addEventListener('click', ()=>{ nextTrack(); });
+function prevTrack(){
+  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  player.src = tracks[currentTrack];
+  player.play().catch(()=>{});
+  updateTrackDisplay();
+}
 
-    // 曲ボタン生成
-    const trackButtons = [];
-    for(let i=0;i<tracks.length;i++){
-      const btn = document.createElement('button');
-      btn.textContent = i+1;
-      btn.className = "track-btn";
-      btn.addEventListener('click',()=>{ selectTrack(i); });
-      trackButtonsDiv.appendChild(btn);
-      trackButtons.push(btn);
-    }
-
-    function updateTrackButtons(){
-      trackButtons.forEach((btn,index)=>{
-        if(index === currentTrack){
-          btn.classList.add('playing');
-        } else {
-          btn.classList.remove('playing');
-        }
-      });
-    }
-
-    function selectTrack(index){
-      currentTrack = index;
-      player.src = tracks[currentTrack];
-      player.play().catch(()=>{});
-      updateTrackButtons();
-    }
-
-    function nextTrack(){
-      currentTrack = (currentTrack + 1) % tracks.length;
-      player.src = tracks[currentTrack];
-      player.play().catch(()=>{});
-      updateTrackButtons();
-    }
-
-    function prevTrack(){
-      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-      player.src = tracks[currentTrack];
-      player.play().catch(()=>{});
-      updateTrackButtons();
-    }
-
-    // ページ読み込み時に自動再生を試みる
-    window.addEventListener('load', () => {
-      player.play().catch(()=>{});
-      updateTrackButtons();
-    });
-  </script>
+// ページ読み込み時に自動再生を試みる
+window.addEventListener('load', () => {
+  player.play().catch(()=>{});
+  updateTrackDisplay();
+});
+</script>
 </body>
 </html>
