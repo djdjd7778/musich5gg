@@ -54,10 +54,8 @@ let currentTrack = 0;
 player.src = tracks[currentTrack];
 player.loop = false;
 
-// 曲が終わったら次の曲へ
 player.addEventListener('ended', () => { nextTrack(); });
 
-// ボタン操作
 playBtn.addEventListener('click',()=>{player.play();});
 pauseBtn.addEventListener('click',()=>{player.pause();});
 volBtn.addEventListener('click', ()=>{
@@ -72,7 +70,7 @@ volBtn.addEventListener('click', ()=>{
 prevBtn.addEventListener('click', ()=>{ prevTrack(); });
 nextBtn.addEventListener('click', ()=>{ nextTrack(); });
 
-// 曲番号入力タイプ
+
 selectBtn.addEventListener('click', ()=>{
   let num = parseInt(trackInput.value);
   if(!isNaN(num) && num>=1 && num<=27){
@@ -85,12 +83,11 @@ selectBtn.addEventListener('click', ()=>{
   }
 });
 
-// 曲番号表示更新
 function updateTrackDisplay(){
   trackDisplay.textContent = `現在の曲: ${currentTrack+1}`;
 }
 
-// 次/前の曲
+
 function nextTrack(){
   currentTrack = (currentTrack + 1) % tracks.length;
   player.src = tracks[currentTrack];
@@ -105,7 +102,6 @@ function prevTrack(){
   updateTrackDisplay();
 }
 
-// ページ読み込み時に自動再生を試みる
 window.addEventListener('load', () => {
   player.play().catch(()=>{});
   updateTrackDisplay();
