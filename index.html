@@ -1,36 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>h5ggg音楽</title>
-<style>
+<!DOCTYPE html>&#10;<html lang="ja">&#10;<head>&#10;<meta charset="UTF-8">&#10;<meta name="viewport" content="width=device-width, initial-scale=1.0">&#10;<title>&#104;&#53;&#103;&#103;&#38899;&#27005;</title>&#10;<style>
   body { font-family: system-ui, sans-serif; text-align: center; padding:50px; background:#f0f0f0; }
   button { font-size:16px; margin:5px; padding:8px 16px; cursor:pointer; }
   input { font-size:16px; width:50px; text-align:center; }
   .track-display { margin-top:20px; font-weight:bold; }
-</style>
-</head>
-<body>
-<h1>音楽再生</h1>
-
-<audio id="player" controls autoplay></audio>
-<br>
-
-<button id="prevBtn">⏮ 前の曲</button>
-<button id="nextBtn">⏭ 次の曲</button>
-<button id="playBtn">▶ 再生</button>
-<button id="pauseBtn">⏸ 停止</button>
-<button id="volBtn">🔊 音量調整</button>
-<br><br>
-
-<label for="trackInput">曲番号(1～27):</label>
-<input type="number" id="trackInput" min="1" max="27">
-<button id="selectBtn">再生</button>
-
-<div class="track-display" id="trackDisplay">現在の曲: 1</div>
-
-<script>
+</style>&#10;</head>&#10;<body>&#10;<h1>&#38899;&#27005;&#20877;&#29983;</h1>&#10;&#10;<audio id="player" controls autoplay></audio>&#10;<br>&#10;&#10;<button id="prevBtn">&#9198;&#32;&#21069;&#12398;&#26354;</button>&#10;<button id="nextBtn">&#9197;&#32;&#27425;&#12398;&#26354;</button>&#10;<button id="playBtn">&#9654;&#32;&#20877;&#29983;</button>&#10;<button id="pauseBtn">&#9208;&#32;&#20572;&#27490;</button>&#10;<button id="volBtn">🔊&#32;&#38899;&#37327;&#35519;&#25972;</button>&#10;<br><br>&#10;&#10;<label for="trackInput">&#26354;&#30058;&#21495;&#40;&#49;&#65374;&#50;&#55;&#41;&#58;</label>&#10;<input type="number" id="trackInput" min="1" max="27">&#10;<button id="selectBtn">&#20877;&#29983;</button>&#10;&#10;<div class="track-display" id="trackDisplay">&#29694;&#22312;&#12398;&#26354;&#58;&#32;&#49;</div>&#10;&#10;<script>
 const player = document.getElementById('player');
 const playBtn = document.getElementById('playBtn');
 const pauseBtn = document.getElementById('pauseBtn');
@@ -106,6 +79,4 @@ window.addEventListener('load', () => {
   player.play().catch(()=>{});
   updateTrackDisplay();
 });
-</script>
-</body>
-</html>
+</script>&#10;</body>&#10;</html>&#10;
